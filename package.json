@@ -1,0 +1,38 @@
+{
+  "name": "hubot-github-event-announcer",
+  "version": "0.1.0",
+  "description": "Announces GitHub webhook events",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifted-studios/hubot-github-event-announcer"
+  },
+  "keywords": [
+    "hubot-script",
+    "github",
+    "webhooks",
+    "announcer",
+    "notifier"
+  ],
+  "author": "Lee Dohm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lifted-studios/hubot-github-event-announcer/issues"
+  },
+  "homepage": "https://github.com/lifted-studios/hubot-github-event-announcer",
+  "dependencies": {
+    "coffee-script": "~1.8"
+  },
+  "devDependencies": {
+    "jasmine-focused": "1.x",
+    "grunt-release": "~0.6.0",
+    "matchdep": "~0.1.2",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt": "~0.4.1",
+    "grunt-shell": "~0.2.2",
+    "grunt-coffeelint": "0.0.6"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  }
+}
