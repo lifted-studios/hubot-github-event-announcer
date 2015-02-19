@@ -1,2 +1,2 @@
 module.exports = (data) ->
-  "GitHub sent an unknown event:\n#{JSON.stringify(event.data, null, 2)}"
+  "GitHub sent an unknown event:\n#{JSON.stringify(data, null, 2)}"
