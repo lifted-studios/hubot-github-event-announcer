@@ -6,10 +6,10 @@
 # ## Example
 #
 # ```
-# lee-dohm pushed 1 commit to lifted-studios/lifted-hubot
-#  * Add a small description to unhandled event messages
+# user-name pushed 1 commit to foo/bar
+#  * Add some feature
 #
-# https://github.com/lifted-studios/lifted-hubot/compare/59c6a6a81a0a...651ef72811f2
+# https://github.com/foo/bar/compare/59c6a6a81a0a...651ef72811f2
 # ```
 #
 # * `data` Push event data.
