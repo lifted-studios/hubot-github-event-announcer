@@ -1,0 +1,52 @@
+{
+  "zen": "Keep it logically awesome.",
+  "hook_id": 12345,
+  "hook": {
+    "url": "https://api.github.com/orgs/lifted-studios/hooks/12345",
+    "ping_url": "https://api.github.com/orgs/lifted-studios/hooks/12345/pings",
+    "id": 12345,
+    "name": "web",
+    "active": true,
+    "events": [
+      "*"
+    ],
+    "config": {
+      "url": "http://hubot.example.com/hubot/github-events?room=events",
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "secret": "********"
+    },
+    "updated_at": "2015-02-18T15:48:41Z",
+    "created_at": "2015-02-18T15:48:41Z"
+  },
+  "organization": {
+    "login": "lifted-studios",
+    "id": 12346,
+    "url": "https://api.github.com/orgs/lifted-studios",
+    "repos_url": "https://api.github.com/orgs/lifted-studios/repos",
+    "events_url": "https://api.github.com/orgs/lifted-studios/events",
+    "members_url": "https://api.github.com/orgs/lifted-studios/members{/member}",
+    "public_members_url": "https://api.github.com/orgs/lifted-studios/public_members{/member}",
+    "avatar_url": "https://avatars.githubusercontent.com/u/12346?v=3",
+    "description": null
+  },
+  "sender": {
+    "login": "lee-dohm",
+    "id": 12347,
+    "avatar_url": "https://avatars.githubusercontent.com/u/12347?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/lee-dohm",
+    "html_url": "https://github.com/lee-dohm",
+    "followers_url": "https://api.github.com/users/lee-dohm/followers",
+    "following_url": "https://api.github.com/users/lee-dohm/following{/other_user}",
+    "gists_url": "https://api.github.com/users/lee-dohm/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/lee-dohm/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/lee-dohm/subscriptions",
+    "organizations_url": "https://api.github.com/users/lee-dohm/orgs",
+    "repos_url": "https://api.github.com/users/lee-dohm/repos",
+    "events_url": "https://api.github.com/users/lee-dohm/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/lee-dohm/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}
