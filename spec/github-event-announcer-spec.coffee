@@ -22,6 +22,3 @@ describe 'GitHub Event Announcer', ->
 
   afterEach ->
     robot.shutdown()
-
-  it 'executes a test', ->
-    expect(10).toEqual(10)
