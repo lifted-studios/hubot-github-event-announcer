@@ -22,7 +22,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
 
@@ -41,7 +41,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
 
@@ -60,7 +60,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
 
@@ -79,7 +79,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
       label:
@@ -100,7 +100,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
       label:
@@ -121,7 +121,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
       assignee:
@@ -142,7 +142,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
       assignee:
@@ -163,7 +163,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
       assignee:
@@ -184,7 +184,7 @@ describe 'Issues Formatter', ->
         title: title
         user:
           login: name
-        url: url
+        html_url: url
       repository:
         full_name: repo
       assignee:
