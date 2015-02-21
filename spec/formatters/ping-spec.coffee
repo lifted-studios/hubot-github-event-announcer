@@ -3,10 +3,11 @@ formatter = require '../../src/formatters/ping'
 
 describe 'Ping Formatter', ->
   it 'formats a ping event', ->
-    data = fixtureContent('ping.json')
+    event =
+      data: fixtureContent('ping.json')
 
-    expect(formatter(data)).toEqual """
-      GitHub sent a Webhook Ping event: #{data.zen}
+    expect(formatter(event)).toEqual """
+      GitHub sent a Webhook Ping event: #{event.data.zen}
 
-      #{data.hook.url}
+      #{event.data.hook.url}
       """

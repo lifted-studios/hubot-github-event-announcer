@@ -9,10 +9,11 @@
 # https://api.github.com/orgs/lifted-studios/hooks/12345
 # ```
 #
-# * `data` Event data.
+# * `event` Ping event.
 #
 # Returns a {String} containing the announcement.
-module.exports = (data) ->
+module.exports = (event) ->
+  data = event.data
   """
   GitHub sent a Webhook Ping event: #{data.zen}
 

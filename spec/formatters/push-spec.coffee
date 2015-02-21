@@ -13,15 +13,16 @@ describe 'Push Formatter', ->
     repoName = githubRepo()
     url = faker.internet.avatar()
 
-    data =
-      commits: commits
-      compare: url
-      pusher:
-        name: name
-      repository:
-        full_name: repoName
+    event =
+      data:
+        commits: commits
+        compare: url
+        pusher:
+          name: name
+        repository:
+          full_name: repoName
 
-    expect(formatter(data)).toEqual """
+    expect(formatter(event)).toEqual """
       #{name} pushed 3 commits to #{repoName}
        * #{commits[0].message}
        * #{commits[1].message}

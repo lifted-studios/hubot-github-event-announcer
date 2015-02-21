@@ -39,7 +39,7 @@ module.exports = (robot) ->
 #   * `message` Message {String} to use to announce the event.
 announceEvent = (event, callback) ->
   formatter = formatters[event.type] ? formatters.unhandled
-  message = formatter(event.data)
+  message = formatter(event)
   callback(event.room, message)
 
 # Public: Receives the GitHub event webhook request.

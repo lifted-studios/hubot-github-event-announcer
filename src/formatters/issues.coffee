@@ -10,10 +10,11 @@
 # https://github.com/foo/bar/issue/23
 # ```
 #
-# * `data` Push event data.
+# * `event` Push event.
 #
 # Returns a {String} containing the announcement.
-module.exports = (data) ->
+module.exports = (event) ->
+  data = event.data
   switch data.action
     when 'opened', 'closed', 'reopened'
       openAction(data)

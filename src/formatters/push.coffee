@@ -12,10 +12,11 @@
 # https://github.com/foo/bar/compare/59c6a6a81a0a...651ef72811f2
 # ```
 #
-# * `data` Push event data.
+# * `event` Push event.
 #
 # Returns a {String} containing the announcement.
-module.exports = (data) ->
+module.exports = (event) ->
+  data = event.data
   message = "#{data.pusher.name} pushed #{ordinal(data.commits.length, 'commit')} to #{data.repository.full_name}"
   message += "\n * #{commit.message}" for commit in data.commits
   message += "\n\n#{data.compare}"

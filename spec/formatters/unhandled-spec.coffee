@@ -3,10 +3,11 @@ formatter = require '../../src/formatters/unhandled'
 
 describe 'Unhandled Formatter', ->
   it 'formats an unhandled event', ->
-    data = fixtureContent('unhandled.json')
+    event =
+      data: fixtureContent('unhandled.json')
 
-    expect(formatter(data)).toEqual """
+    expect(formatter(event)).toEqual """
       GitHub sent an event I don't understand:
 
-      #{JSON.stringify(data, null, 2)}
+      #{JSON.stringify(event.data, null, 2)}
       """
