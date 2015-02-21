@@ -5,10 +5,16 @@
 #
 # ```
 # GitHub sent a Webhook Ping event: Keep it logically awesome.
+#
+# https://api.github.com/orgs/lifted-studios/hooks/12345
 # ```
 #
 # * `data` Event data.
 #
 # Returns a {String} containing the announcement.
 module.exports = (data) ->
-  "GitHub sent a Webhook Ping event: #{data.zen}"
+  """
+  GitHub sent a Webhook Ping event: #{data.zen}
+
+  #{data.hook.url}
+  """

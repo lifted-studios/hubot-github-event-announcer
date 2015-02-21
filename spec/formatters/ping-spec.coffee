@@ -7,4 +7,6 @@ describe 'Ping Formatter', ->
 
     expect(formatter(data)).toEqual """
       GitHub sent a Webhook Ping event: #{data.zen}
+
+      #{data.hook.url}
       """
