@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.4.0** &mdash; *Released: 22 February 2015*
 
-* Update documentation in README
+* Added formatter for issue comments
+* Updated documentation in README
 
 ## **v0.3.0** &mdash; *Released: 20 February 2015*
 
