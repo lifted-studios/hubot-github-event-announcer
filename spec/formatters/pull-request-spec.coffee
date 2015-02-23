@@ -4,11 +4,13 @@ formatter = require '../../src/formatters/pull-request'
 {githubRepo} = require '../helpers'
 
 describe 'Pull Request Formatter', ->
-  [event, name, number, repo, title, url] = []
+  [event, label, name, number, otherName, repo, title, url] = []
 
   beforeEach ->
+    label = faker.lorem.words(1)
     name = faker.internet.userName()
     number = faker.helpers.randomNumber()
+    otherName = faker.internet.userName()
     repo = githubRepo()
     title = faker.lorem.sentence()
     url = faker.internet.avatar()
@@ -63,6 +65,78 @@ describe 'Pull Request Formatter', ->
 
     expect(formatter(event)).toEqual """
       #{name} reopened Pull Request ##{number} on #{repo}
+      Title: #{title}
+
+      #{url}
+      """
+
+  it 'formats an assign pull request event', ->
+    event.data.action = 'assigned'
+    event.data.assignee =
+      login: otherName
+
+    expect(formatter(event)).toEqual """
+      #{name} assigned #{otherName} to Pull Request ##{number} on #{repo}
+      Title: #{title}
+
+      #{url}
+      """
+
+  it 'formats an assign pull request event when the assigner and assignee are the same person', ->
+    event.data.action = 'assigned'
+    event.data.assignee =
+      login: name
+
+    expect(formatter(event)).toEqual """
+      #{name} assigned themselves to Pull Request ##{number} on #{repo}
+      Title: #{title}
+
+      #{url}
+      """
+
+  it 'formats an unassign pull request event', ->
+    event.data.action = 'unassigned'
+    event.data.assignee =
+      login: otherName
+
+    expect(formatter(event)).toEqual """
+      #{name} unassigned #{otherName} to Pull Request ##{number} on #{repo}
+      Title: #{title}
+
+      #{url}
+      """
+
+  it 'formats an unassign pull request event when the assigner and assignee are the same person', ->
+    event.data.action = 'unassigned'
+    event.data.assignee =
+      login: name
+
+    expect(formatter(event)).toEqual """
+      #{name} unassigned themselves to Pull Request ##{number} on #{repo}
+      Title: #{title}
+
+      #{url}
+      """
+
+  it 'formats a label pull request event', ->
+    event.data.action = 'labeled'
+    event.data.label =
+      name: label
+
+    expect(formatter(event)).toEqual """
+      #{name} added the label #{label} to Pull Request ##{number} on #{repo}
+      Title: #{title}
+
+      #{url}
+      """
+
+  it 'formats an unlabel pull request event', ->
+    event.data.action = 'unlabeled'
+    event.data.label =
+      name: label
+
+    expect(formatter(event)).toEqual """
+      #{name} removed the label #{label} to Pull Request ##{number} on #{repo}
       Title: #{title}
 
       #{url}
