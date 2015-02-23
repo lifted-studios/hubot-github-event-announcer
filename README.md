@@ -4,9 +4,11 @@ Announces GitHub webhook events. Gotta catch 'em all!
 
 Currently supports:
 
-1. Push events
-1. Ping events
+1. Issue Comment events
 1. Issues events
+1. Ping events
+1. Pull Request events
+1. Push events
 
 All other events it announces by giving you the JSON supplied by the webhook.
 

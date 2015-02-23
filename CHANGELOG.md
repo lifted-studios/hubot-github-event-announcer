@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.5.0** &mdash; *Released: 22 February 2015*
 
 * Added formatter for pull request events
 
