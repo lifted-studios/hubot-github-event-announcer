@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* Added formatter for pull request events
+
 ## **v0.4.0** &mdash; *Released: 22 February 2015*
 
 * Added formatter for issue comments
