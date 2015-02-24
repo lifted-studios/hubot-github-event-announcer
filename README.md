@@ -1,6 +1,6 @@
 # Hubot GitHub Event Announcer
 
-Announces GitHub webhook events. Gotta catch 'em all!
+Announces [GitHub webhook events][webhooks]. Gotta catch 'em all!
 
 Currently supports:
 
@@ -46,3 +46,4 @@ The GitHub Event Announcer responds to the URL `http://hubot.example.com/github/
 Copyright &copy; 2015 by [Lee Dohm](http://www.lee-dohm.com) and [Lifted Studios](http://www.liftedstudios.com). See [LICENSE][license] for details.
 
 [license]: https://github.com/lifted-studios/hubot-github-event-announcer/blob/master/LICENSE.md
+[webhooks]: https://developer.github.com/v3/activity/events/types/
