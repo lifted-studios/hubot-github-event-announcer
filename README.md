@@ -41,6 +41,10 @@ The GitHub Event Announcer responds to the URL `http://hubot.example.com/github/
 1. `hubot.example.com` is the fully-qualified domain name of your instance of Hubot
 1. `someRoom` is the name of the chat room where you want announcements to show up
 
+It also can be configured using the following environment values:
+
+* `HUBOT_GITHUB_EVENT_DEFAULT_ROOM` &mdash; If no room is specified in the hook, the announcer will send events to this room
+
 ## Copyright
 
 Copyright &copy; 2015 by [Lee Dohm](http://www.lee-dohm.com) and [Lifted Studios](http://www.liftedstudios.com). See [LICENSE][license] for details.
