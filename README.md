@@ -8,6 +8,7 @@ Currently supports:
 1. Issues events
 1. Ping events
 1. Pull Request events
+1. Pull Request Review Comment events
 1. Push events
 
 All other events it announces by giving you the JSON supplied by the webhook.

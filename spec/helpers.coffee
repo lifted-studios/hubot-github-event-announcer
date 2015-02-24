@@ -8,3 +8,6 @@ module.exports =
 
   githubRepo: ->
     "#{faker.lorem.words(1)}/#{faker.lorem.words(1)}"
+
+  randomNumber: (max, min = 0) ->
+    Math.floor(Math.random() * (max - min)) + min
