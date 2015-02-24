@@ -28,6 +28,7 @@ module.exports = (robot) ->
       res.send(204)
 
   robot.on 'github-event', (event) ->
+    event.robot = robot
     announceEvent event, (room, message) ->
       robot.messageRoom room, message
 
