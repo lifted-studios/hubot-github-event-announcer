@@ -1,4 +1,6 @@
 module.exports =
+  create: require './create'
+  delete: require './delete'
   issue_comment: require './issue-comment'
   issues: require './issues'
   ping: require './ping'

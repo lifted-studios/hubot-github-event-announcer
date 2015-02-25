@@ -3,6 +3,7 @@
 ## **master** &mdash; *Unreleased*
 
 * Added formatter for create events
+* Added formatter for delete events
 * Added formatter for pull request review comment events
 
 ## **v0.5.0** &mdash; *Released: 22 February 2015*
