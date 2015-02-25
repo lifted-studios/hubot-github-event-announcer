@@ -2,6 +2,7 @@
 
 ## **master** &mdash; *Unreleased*
 
+* Added formatter for commit comment events
 * Added formatter for create events
 * Added formatter for delete events
 * Added formatter for pull request review comment events

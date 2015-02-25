@@ -1,4 +1,5 @@
 module.exports =
+  commit_comment: require './commit-comment'
   create: require './create'
   delete: require './delete'
   issue_comment: require './issue-comment'
