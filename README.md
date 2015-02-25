@@ -4,6 +4,7 @@ Announces [GitHub webhook events][webhooks]. Gotta catch 'em all!
 
 Currently supports:
 
+1. Create events
 1. Issue Comment events
 1. Issues events
 1. Ping events
@@ -19,7 +20,7 @@ Add the package `hubot-github-event-announcer` as a dependency in your Hubot `pa
 
 ```json
 "dependencies": {
-  "hubot-github-event-announcer": "0.3.0"
+  "hubot-github-event-announcer": "0.6.0"
 }
 ```
 
