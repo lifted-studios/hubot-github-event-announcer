@@ -30,3 +30,20 @@ describe 'Push Formatter', ->
 
       #{url}
       """
+
+  it 'returns undefined for a push with no commits', ->
+    name = faker.internet.userName()
+    commits = []
+    repoName = githubRepo()
+    url = faker.internet.avatar()
+
+    event =
+      data:
+        commits: commits
+        compare: url
+        pusher:
+          name: name
+        repository:
+          full_name: repoName
+
+    expect(formatter(event)).toBeUndefined()

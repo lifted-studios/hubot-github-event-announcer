@@ -41,7 +41,11 @@ module.exports = (robot) ->
 announceEvent = (event, callback) ->
   formatter = formatters[event.type] ? formatters.unhandled
   message = formatter(event)
-  callback(event.room, message)
+  if message
+    callback(event.room, message)
+  else
+    event.robot.logger.info "Formatter for '#{event.type}' refused to format:
+      JSON.stringify(event, null, 2)"
 
 # Public: Receives the GitHub event webhook request.
 #
