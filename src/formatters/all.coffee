@@ -2,6 +2,7 @@ module.exports =
   commit_comment: require './commit-comment'
   create: require './create'
   delete: require './delete'
+  deployment: require './deployment'
   issue_comment: require './issue-comment'
   issues: require './issues'
   ping: require './ping'

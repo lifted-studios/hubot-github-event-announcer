@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* Added formatter for deployment events
+
 ## **v0.6.0** &mdash; *Released: 24 February 2015*
 
 * Added formatter for commit comment events
