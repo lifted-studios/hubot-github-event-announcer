@@ -3,16 +3,17 @@ formatter = require '../../src/formatters/issues'
 {githubRepo} = require '../helpers'
 
 describe 'Issues Formatter', ->
-  [event, label, name, number, otherName, repo, title, url] = []
+  [event, label, opener, number, otherName, repo, sender, title, url] = []
 
   beforeEach ->
     label = faker.lorem.words(1)
-    name = faker.internet.userName()
+    opener = faker.internet.userName()
     number = faker.helpers.randomNumber()
     otherName = faker.internet.userName()
     repo = githubRepo()
     title = faker.lorem.sentence()
     url = faker.internet.avatar()
+    sender = faker.internet.userName()
 
     event =
       data:
@@ -20,7 +21,7 @@ describe 'Issues Formatter', ->
           number: number
           title: title
           user:
-            login: name
+            login: opener
           html_url: url
         repository:
           full_name: repo
@@ -29,7 +30,7 @@ describe 'Issues Formatter', ->
     event.data.action = 'opened'
 
     expect(formatter(event)).toEqual """
-      #{name} opened Issue ##{number} on #{repo}
+      #{opener} opened Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -37,9 +38,11 @@ describe 'Issues Formatter', ->
 
   it 'formats an issue close event', ->
     event.data.action = 'closed'
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} closed Issue ##{number} on #{repo}
+      #{sender} closed Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -47,9 +50,11 @@ describe 'Issues Formatter', ->
 
   it 'formats an issue reopen event', ->
     event.data.action = 'reopened'
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} reopened Issue ##{number} on #{repo}
+      #{sender} reopened Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -59,9 +64,11 @@ describe 'Issues Formatter', ->
     event.data.action = 'labeled'
     event.data.label =
       name: label
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} added the label '#{label}' to Issue ##{number} on #{repo}
+      #{sender} added the label '#{label}' to Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -71,9 +78,11 @@ describe 'Issues Formatter', ->
     event.data.action = 'unlabeled'
     event.data.label =
       name: label
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} removed the label '#{label}' from Issue ##{number} on #{repo}
+      #{sender} removed the label '#{label}' from Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -83,9 +92,11 @@ describe 'Issues Formatter', ->
     event.data.action = 'assigned'
     event.data.assignee =
       login: otherName
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} assigned #{otherName} to Issue ##{number} on #{repo}
+      #{sender} assigned #{otherName} to Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -94,10 +105,12 @@ describe 'Issues Formatter', ->
   it 'formats an issue assign event where the assigner is the assignee', ->
     event.data.action = 'assigned'
     event.data.assignee =
-      login: name
+      login: sender
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} assigned themselves to Issue ##{number} on #{repo}
+      #{sender} assigned themselves to Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -107,9 +120,11 @@ describe 'Issues Formatter', ->
     event.data.action = 'unassigned'
     event.data.assignee =
       login: otherName
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} unassigned #{otherName} from Issue ##{number} on #{repo}
+      #{sender} unassigned #{otherName} from Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
@@ -118,10 +133,12 @@ describe 'Issues Formatter', ->
   it 'formats an issue unassign event where the unassigner is the assignee', ->
     event.data.action = 'unassigned'
     event.data.assignee =
-      login: name
+      login: sender
+    event.data.sender =
+      login: sender
 
     expect(formatter(event)).toEqual """
-      #{name} unassigned themselves from Issue ##{number} on #{repo}
+      #{sender} unassigned themselves from Issue ##{number} on #{repo}
       Title: #{title}
 
       #{url}
