@@ -3,6 +3,7 @@
 ## **master** &mdash; *Unreleased*
 
 * Added formatter for deployment events
+* [#6](https://github.com/lifted-studios/hubot-github-event-announcer/issues/6) &mdash; Use sender's name for most issue events
 
 ## **v0.6.0** &mdash; *Released: 24 February 2015*
 
