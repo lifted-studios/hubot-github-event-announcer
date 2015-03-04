@@ -40,7 +40,7 @@ To enable the script, add the `hubot-github-event-announcer` entry to the `exter
 
 ## Configuration
 
-The GitHub Event Announcer responds to the URL `http://hubot.example.com/github/events?room=someRoom` where:
+The GitHub Event Announcer responds to the URL `http://hubot.example.com/hubot/github-events?room=someRoom` where:
 
 1. `hubot.example.com` is the fully-qualified domain name of your instance of Hubot
 1. `someRoom` is the name of the chat room where you want announcements to show up
