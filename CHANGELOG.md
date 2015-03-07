@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## **v0.7.1** &mdash; *Released: 7 March 2015*
+
+* Use sender's name for pull request events
+* [#9](https://github.com/lifted-studios/hubot-github-event-announcer/issues/9) &mdash; Fix pull request event crashes
+* [#8](https://github.com/lifted-studios/hubot-github-event-announcer/issues/8) &mdash; Optionally report exceptions based on the `HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS` environment variable
+
 ## **v0.7.0** &mdash; *Released: 7 March 2015*
 
 * Added formatter for fork events
