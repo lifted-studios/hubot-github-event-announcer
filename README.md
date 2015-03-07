@@ -8,6 +8,7 @@ Currently supports:
 1. Create events
 1. Delete events
 1. Deployment events
+1. Fork events
 1. Issue Comment events
 1. Issues events
 1. Ping events

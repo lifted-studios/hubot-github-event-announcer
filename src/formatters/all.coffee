@@ -3,6 +3,7 @@ module.exports =
   create: require './create'
   delete: require './delete'
   deployment: require './deployment'
+  fork: require './fork'
   issue_comment: require './issue-comment'
   issues: require './issues'
   ping: require './ping'
