@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.7.0** &mdash; *Released: 7 March 2015*
 
 * Added formatter for fork events
 * Added formatter for watch events
