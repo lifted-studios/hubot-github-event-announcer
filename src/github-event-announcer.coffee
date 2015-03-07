@@ -5,8 +5,9 @@
 #   None
 #
 # Configuration:
-#   HUBOT_GITHUB_EVENT_DEFAULT_ROOM - Room name of the default room to announce events in.
-#   HUBOT_GITHUB_EVENT_SECRET - Secret that matches the value stored in the GitHub hook definition.
+#   HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS - If present, announces exceptions that occur during formatting
+#   HUBOT_GITHUB_EVENT_DEFAULT_ROOM - Room name of the default room to announce events in
+#   HUBOT_GITHUB_EVENT_SECRET - Secret that matches the value stored in the GitHub hook definition
 #
 # Commands:
 #   None
@@ -39,13 +40,23 @@ module.exports = (robot) ->
 #   * `room` Room {String} to announce the event to.
 #   * `message` Message {String} to use to announce the event.
 announceEvent = (event, callback) ->
-  formatter = formatters[event.type] ? formatters.unhandled
-  message = formatter(event)
-  if message
-    callback(event.room, message)
-  else
-    event.robot.logger.info "Formatter for '#{event.type}' refused to format:
-      JSON.stringify(event, null, 2)"
+  try
+    formatter = formatters[event.type] ? formatters.unhandled
+    message = formatter(event)
+    if message
+      callback(event.room, message)
+    else
+      event.robot.logger.info "Formatter for #{event.type} event refused to format:
+        #{JSON.stringify(event, null, 2)}"
+  catch err
+    if process.env.HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS
+      event.robot.messageRoom event.room, """
+        Exception occurred while formatting #{event.type} event
+
+        #{JSON.stringify(err, null, 2)}
+        """
+
+    event.robot.emit 'error', err, "Exception occurred while formatting #{event.type} event"
 
 # Public: Receives the GitHub event webhook request.
 #

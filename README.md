@@ -25,7 +25,7 @@ Add the package `hubot-github-event-announcer` as a dependency in your Hubot `pa
 
 ```json
 "dependencies": {
-  "hubot-github-event-announcer": "0.6.0"
+  "hubot-github-event-announcer": "0.7.0"
 }
 ```
 
@@ -50,6 +50,7 @@ The GitHub Event Announcer responds to the URL `http://hubot.example.com/hubot/g
 
 It also can be configured using the following environment values:
 
+* `HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS` &mdash; If present, announces exceptions that occur during formatting
 * `HUBOT_GITHUB_EVENT_DEFAULT_ROOM` &mdash; If no room is specified in the hook, the announcer will send events to this room
 
 ## Copyright
