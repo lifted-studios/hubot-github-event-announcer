@@ -6,6 +6,7 @@ module.exports = (event) ->
 
 openEvent = ({data}) ->
   pullRequest = data.pull_request
+  sender = data.sender
   repo = data.repository
   verb =
     if pullRequest.merged
@@ -14,7 +15,7 @@ openEvent = ({data}) ->
       data.action
 
   """
-  #{pullRequest.user.login} #{verb} Pull Request ##{data.number} on #{repo.full_name}
+  #{sender.login} #{verb} Pull Request ##{data.number} on #{repo.full_name}
   Title: #{pullRequest.title}
 
   #{data.html_url}
@@ -23,12 +24,13 @@ openEvent = ({data}) ->
 assignEvent = ({data}) ->
   pullRequest = data.pull_request
   repo = data.repository
+  sender = data.sender
   verb = data.action
   assignee = data.assignee.login
-  assignee = 'themselves' if assignee is pullRequest.user.login
+  assignee = 'themselves' if assignee is sender.login
 
   """
-  #{pullRequest.user.login} #{verb} #{assignee} to Pull Request ##{data.number} on #{repo.full_name}
+  #{sender.login} #{verb} #{assignee} to Pull Request ##{data.number} on #{repo.full_name}
   Title: #{pullRequest.title}
 
   #{data.html_url}
@@ -37,6 +39,7 @@ assignEvent = ({data}) ->
 labelEvent = ({data}) ->
   pullRequest = data.pull_request
   repo = data.repository
+  sender = data.sender
   label = data.label.name
   verb =
     switch data.action
@@ -44,7 +47,7 @@ labelEvent = ({data}) ->
       when 'unlabeled' then 'removed'
 
   """
-  #{pullRequest.user.login} #{verb} the label #{label} to Pull Request ##{data.number} on #{repo.full_name}
+  #{sender.login} #{verb} the label #{label} to Pull Request ##{data.number} on #{repo.full_name}
   Title: #{pullRequest.title}
 
   #{data.html_url}

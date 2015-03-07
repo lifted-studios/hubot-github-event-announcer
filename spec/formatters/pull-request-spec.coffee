@@ -23,10 +23,10 @@ describe 'Pull Request Formatter', ->
         number: number
         pull_request:
           title: title
-          user:
-            login: name
         repository:
           full_name: repo
+        sender:
+          login: name
 
   it 'formats an open pull request event', ->
     event.data.action = 'opened'
