@@ -10,3 +10,4 @@ module.exports =
   pull_request_review_comment: require './pull-request-review-comment'
   push: require './push'
   unhandled: require './unhandled'
+  watch: require './watch'

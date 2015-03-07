@@ -2,6 +2,7 @@
 
 ## **master** &mdash; *Unreleased*
 
+* Added formatter for watch events
 * Added formatter for deployment events
 * [#6](https://github.com/lifted-studios/hubot-github-event-announcer/issues/6) &mdash; Use sender's name for most issue events
 

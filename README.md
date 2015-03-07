@@ -14,6 +14,7 @@ Currently supports:
 1. Pull Request events
 1. Pull Request Review Comment events
 1. Push events
+1. Watch events
 
 All other events it announces by giving you the JSON supplied by the webhook.
 
