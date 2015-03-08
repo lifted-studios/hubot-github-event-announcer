@@ -178,9 +178,10 @@ describe 'EventManager', ->
           process.env = oldEnv
 
         it 'announces the exception', ->
-          callAnnounceEvent(manager, event)
+          [room, _] = callAnnounceEvent(manager, event)
 
-          expect(robot.messageRoom).toHaveBeenCalled()
+          expect(room).toEqual roomName
+          expect(robot.messageRoom).not.toHaveBeenCalled()
 
         it 'still emits the error event', ->
           callAnnounceEvent(manager, event)
