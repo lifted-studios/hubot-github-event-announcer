@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS - If present, announces exceptions that occur during formatting
+#   HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS - If present, announces exceptions during formatting
 #   HUBOT_GITHUB_EVENT_DEFAULT_ROOM - Room name of the default room to announce events in
 #   HUBOT_GITHUB_EVENT_SECRET - Secret that matches the value stored in the GitHub hook definition
 #
@@ -20,60 +20,16 @@
 
 fs = require 'fs'
 
-formatters = require './formatters/all'
+EventManager = require './event-manager'
 
 module.exports = (robot) ->
+  manager = new EventManager(robot)
+
   robot.router.post '/hubot/github-events', (req, res) ->
-    receiveHook req, (event) ->
+    manager.receiveHook req, (event) ->
       robot.emit 'github-event', event
       res.send(204)
 
   robot.on 'github-event', (event) ->
-    event.robot = robot
-    announceEvent event, (room, message) ->
-      robot.messageRoom room, message
-
-# Public: Announces the event.
-#
-# * `event` Event to announce.
-# * `callback` {Function} that accepts:
-#   * `room` Room {String} to announce the event to.
-#   * `message` Message {String} to use to announce the event.
-announceEvent = (event, callback) ->
-  try
-    formatter = formatters[event.type] ? formatters.unhandled
-    message = formatter(event)
-    if message
-      callback(event.room, message)
-    else
-      event.robot.logger.info "Formatter for #{event.type} event refused to format:
-        #{JSON.stringify(event, null, 2)}"
-  catch err
-    if process.env.HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS
-      event.robot.messageRoom event.room, """
-        Exception occurred while formatting #{event.type} event
-
-        #{JSON.stringify(err, null, 2)}
-        """
-
-    event.robot.emit 'error', err, "Exception occurred while formatting #{event.type} event"
-
-# Public: Receives the GitHub event webhook request.
-#
-# * `req` {Request} of the webhook.
-# * `callback` {Function} that accepts:
-#   * `event` {Object} consisting of:
-#     * `data` Event data
-#     * `id` Event ID
-#     * `room` Room to announce the event to.
-#     * `signature` Signature validating the event.
-#     * `type` Type of the event.
-receiveHook = (req, callback) ->
-  event =
-    data: req.body
-    id: req.get('X-Github-Delivery')
-    room: req.query.room ? process.env.HUBOT_GITHUB_EVENT_DEFAULT_ROOM
-    signature: req.get('X-Github-Signature')
-    type: req.get('X-Github-Event')
-
-  callback(event)
+    manager.announceEvent event, (room, message) ->
+      robot.messageRoom(room, message)
