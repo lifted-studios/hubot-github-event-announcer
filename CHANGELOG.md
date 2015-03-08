@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* Refactored the code to bring all of the event lifecycle logic under test
+
 ## **v0.7.1** &mdash; *Released: 7 March 2015*
 
 * Use sender's name for pull request events
