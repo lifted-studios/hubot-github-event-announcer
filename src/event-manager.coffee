@@ -21,7 +21,7 @@ class EventManager
         announce(event.room, message)
       else
         @robot.logger.info "Formatter for #{event.type} event refused to format:
-          #{JSON.stringify(event, null, 2)}"
+          #{JSON.stringify(event)}"
 
     catch err
       if process.env.HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS
@@ -51,6 +51,7 @@ class EventManager
       signature: req.get('X-Github-Signature')
       type: req.get('X-Github-Event')
 
+    @robot.logger.info "Received event: #{JSON.stringify(event)}"
     emit(event)
 
   getFormatters: ->

@@ -26,6 +26,10 @@ describe 'EventManager', ->
   beforeEach ->
     robot = {}
     manager = new EventManager(robot)
+    robot.logger =
+      info: ->
+
+    spyOn(robot.logger, 'info')
 
   describe 'receiveHook', ->
     [eventName, guid, req] = []
@@ -138,11 +142,6 @@ describe 'EventManager', ->
       beforeEach ->
         formatters.foo = (event) ->
           null
-
-        robot.logger =
-          info: ->
-
-        spyOn(robot.logger, 'info')
 
       it 'logs a message', ->
         callAnnounceEvent(manager, event)
