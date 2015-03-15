@@ -3,6 +3,7 @@
 ## **master** &mdash; *Unreleased*
 
 * Refactored the code to bring all of the event lifecycle logic under test
+* [#3](https://github.com/lifted-studios/hubot-github-event-announcer/issues/3) &mdash; Now logs all received events
 
 ## **v0.7.1** &mdash; *Released: 7 March 2015*
 
