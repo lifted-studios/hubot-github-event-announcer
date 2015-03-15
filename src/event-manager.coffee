@@ -14,6 +14,8 @@ class EventManager
   announceEvent: (event, announce) ->
     try
       formatters = @getFormatters()
+      return unless formatters[event.type] or process.env.HUBOT_GITHUB_EVENT_ANNOUNCE_UNHANDLED
+
       formatter = formatters[event.type] ? formatters.unhandled
       message = formatter(event)
 

@@ -4,6 +4,7 @@
 
 * Refactored the code to bring all of the event lifecycle logic under test
 * [#3](https://github.com/lifted-studios/hubot-github-event-announcer/issues/3) &mdash; Now logs all received events
+* [#4](https://github.com/lifted-studios/hubot-github-event-announcer/issues/4) &mdash; Created an option to announce unhandled events. *It now defaults to off.*
 
 ## **v0.7.1** &mdash; *Released: 7 March 2015*
 

@@ -129,14 +129,30 @@ describe 'EventManager', ->
       beforeEach ->
         event.type = 'bar'
 
-      it 'uses the unhandled formatter', ->
-        [_, message] = callAnnounceEvent(manager, event)
+      it 'does not announce the event', ->
+        [room, message] = callAnnounceEvent(manager, event)
 
-        expect(message).toEqual """
-          GitHub sent an event I don't understand: #{event.type}
+        expect(room).toBeNull()
+        expect(message).toBeNull()
 
-          #{JSON.stringify(event.data, null, 2)}
-          """
+      describe 'and the HUBOT_GITHUB_EVENT_ANNOUNCE_UNHANDLED variable is set', ->
+        oldEnv = null
+
+        beforeEach ->
+          oldEnv = process.env
+          process.env.HUBOT_GITHUB_EVENT_ANNOUNCE_UNHANDLED = true
+
+        afterEach ->
+          process.env = oldEnv
+
+        it 'uses the unhandled formatter', ->
+          [_, message] = callAnnounceEvent(manager, event)
+
+          expect(message).toEqual """
+            GitHub sent an event I don't understand: #{event.type}
+
+            #{JSON.stringify(event.data, null, 2)}
+            """
 
     describe 'when the formatter returns null', ->
       beforeEach ->
