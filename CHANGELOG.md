@@ -5,6 +5,7 @@
 * Refactored the code to bring all of the event lifecycle logic under test
 * [#3](https://github.com/lifted-studios/hubot-github-event-announcer/issues/3) &mdash; Now logs all received events
 * [#4](https://github.com/lifted-studios/hubot-github-event-announcer/issues/4) &mdash; Created an option to announce unhandled events. *It now defaults to off.*
+* [#5](https://github.com/lifted-studios/hubot-github-event-announcer/issues/5) &mdash; Uses only the first line of the commit text when formatting push events
 
 ## **v0.7.1** &mdash; *Released: 7 March 2015*
 

@@ -7,7 +7,7 @@ describe 'Push Formatter', ->
     name = faker.internet.userName()
     commits = [
       { message: faker.lorem.sentence() }
-      { message: faker.lorem.sentence() }
+      { message: faker.lorem.sentence() + "\n\n" + faker.lorem.paragraph() }
       { message: faker.lorem.sentence() }
     ]
     repoName = githubRepo()
@@ -25,7 +25,7 @@ describe 'Push Formatter', ->
     expect(formatter(event)).toEqual """
       #{name} pushed 3 commits to #{repoName}
        * #{commits[0].message}
-       * #{commits[1].message}
+       * #{commits[1].message.split("\n")[0]}
        * #{commits[2].message}
 
       #{url}
