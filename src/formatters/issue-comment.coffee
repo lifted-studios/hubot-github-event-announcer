@@ -1,3 +1,5 @@
+{formatComment} = require './formatter-helpers'
+
 module.exports = (event) ->
   comment = event.data.comment
   issue = event.data.issue
@@ -8,7 +10,7 @@ module.exports = (event) ->
   """
   #{comment.user.login} commented on Issue ##{issue.number} in #{repo.full_name}
 
-  #{body}
+  #{formatComment(body)}
 
   #{comment.html_url}
   """

@@ -7,18 +7,23 @@ describe 'Pull Request Review Comment Formatter', ->
   [content, event, label, name, number, otherName, repo, title, url] = []
 
   beforeEach ->
-    content = faker.lorem.paragraphs()
+    paragraphs = faker.lorem.paragraphs()
     name = faker.internet.userName()
     number = randomNumber(32768)
     repo = githubRepo()
     url = faker.internet.avatar()
+
+    lines = paragraphs.split("\n")
+    outputLines = []
+    outputLines.push("> #{line}") for line in lines
+    content = outputLines.join("\n")
 
     event =
       type: 'pull_request_review_comment'
       data:
         action: 'created'
         comment:
-          body: content
+          body: paragraphs
           html_url: url
           user:
             login: name
@@ -30,7 +35,8 @@ describe 'Pull Request Review Comment Formatter', ->
   it 'formats a pull request review comment', ->
     expect(formatter(event)).toEqual """
       #{name} commented on Pull Request ##{number} on #{repo}
-      Comment: #{content}
+
+      #{content}
 
       #{url}
       """

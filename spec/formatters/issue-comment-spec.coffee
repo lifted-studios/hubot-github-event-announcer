@@ -5,12 +5,17 @@ describe 'Issue Comment Formatter', ->
   [content, event, name, number, repo, title, url] = []
 
   beforeEach ->
-    content = faker.lorem.paragraphs()
+    paragraphs = faker.lorem.paragraphs()
     name = faker.internet.userName()
     number = faker.helpers.randomNumber()
     repo = githubRepo()
     title = faker.lorem.sentence()
     url = faker.internet.avatar()
+
+    lines = paragraphs.split("\n")
+    outputLines = []
+    outputLines.push("> #{line}") for line in lines
+    content = outputLines.join("\n")
 
     event =
       type: 'issue_comment'
@@ -22,7 +27,7 @@ describe 'Issue Comment Formatter', ->
         repository:
           full_name: repo
         comment:
-          body: content
+          body: paragraphs
           html_url: url
           user:
             login: name
@@ -32,18 +37,6 @@ describe 'Issue Comment Formatter', ->
       #{name} commented on Issue ##{number} in #{repo}
 
       #{content}
-
-      #{url}
-      """
-
-  it 'excludes lines starting with >', ->
-    event.data.comment.body = "#{content}\n\n> foo bar baz"
-
-    expect(formatter(event)).toEqual """
-      #{name} commented on Issue ##{number} in #{repo}
-
-      #{content}
-
 
       #{url}
       """

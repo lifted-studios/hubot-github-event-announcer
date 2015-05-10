@@ -1,3 +1,5 @@
+{formatComment} = require './formatter-helpers'
+
 module.exports = ({data}) ->
   comment = data.comment
   pullRequest = data.pull_request
@@ -5,7 +7,8 @@ module.exports = ({data}) ->
 
   """
   #{comment.user.login} commented on Pull Request ##{pullRequest.number} on #{repo.full_name}
-  Comment: #{comment.body}
+
+  #{formatComment(comment.body)}
 
   #{comment.html_url}
   """

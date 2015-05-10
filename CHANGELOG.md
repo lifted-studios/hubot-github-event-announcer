@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.8.0** &mdash; *Released: 10 May 2015*
 
+* Added blockquote formatting to all comments
 * Refactored the code to bring all of the event lifecycle logic under test
 * [#3](https://github.com/lifted-studios/hubot-github-event-announcer/issues/3) &mdash; Now logs all received events
 * [#4](https://github.com/lifted-studios/hubot-github-event-announcer/issues/4) &mdash; Created an option to announce unhandled events. *It now defaults to off.*
