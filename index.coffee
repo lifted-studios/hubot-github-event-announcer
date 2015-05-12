@@ -1,8 +1,11 @@
 fs = require 'fs'
 path = require 'path'
 
-module.exports = (robot, scripts) ->
+scripts = ['github-event-announcer.coffee']
+
+module.exports = (robot) ->
   scriptsPath = path.resolve(__dirname, 'src')
+
   fs.exists scriptsPath, (exists) ->
     if exists
       for script in fs.readdirSync(scriptsPath)
