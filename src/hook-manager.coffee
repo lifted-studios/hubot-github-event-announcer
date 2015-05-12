@@ -1,3 +1,5 @@
+util = require 'util'
+
 # The list of all GitHub events.
 #
 # See: https://developer.github.com/v3/activity/events/types/
@@ -34,8 +36,8 @@ class HookManager
   # Public: Constructs a new `HookManager`.
   #
   # * `robot` Robot used to interact with the outside world.
-  # * `msg` Message to use to reply back to the user.
-  constructor: (@robot, @msg) ->
+  # * `message` Message to use to reply back to the user.
+  constructor: (@robot, @message) ->
 
   # Public: Adds a hook to the repository at the given GitHub `user` and `repo`.
   #
@@ -63,21 +65,23 @@ class HookManager
       @robot.http("https://api.github.com/repos/#{user}/#{repo}/hooks")
         .header('Accept', 'application/json')
         .header('Authorization', "token #{token}")
-        .post(data) (err, res, body) =>
-          @robot.logger.info "Response code from add hook: #{res.status}"
+        .post(data) (error, response, body) =>
+          @robot.logger.info "Response code from add hook: #{response.status}"
 
-          if err
-            @robot.logger.error err.toString()
-            @msg.reply """
+          if error
+            @robot.logger.error error.toString()
+            @message.reply """
               I encountered an error while adding the GitHub events hook to #{user}/#{repo} ...
 
-              #{err}
+              #{error}
               """
             return
 
-          @msg.reply "I was able to successfully add the GitHub events hook to #{user}/#{repo}"
+          @robot.logger.info util.inspect(response)
+
+          @message.reply "I was able to successfully add the GitHub events hook to #{user}/#{repo}"
     catch e
-      @msg.reply e.message
+      @message.reply e.message
 
   # Private: Builds the URL to use for receiving the web hooks.
   #
