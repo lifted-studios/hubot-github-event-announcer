@@ -11,7 +11,7 @@
 #   HUBOT_GITHUB_EVENT_SECRET - Secret that matches the value stored in the GitHub hook definition
 #
 # Commands:
-#   None
+#   hubot listen for GitHub events on <user>/<repo>
 #
 # Notes:
 #   None
@@ -22,6 +22,7 @@
 fs = require 'fs'
 
 EventManager = require './event-manager'
+HookManager = require './hook-manager'
 
 module.exports = (robot) ->
   manager = new EventManager(robot)
@@ -34,3 +35,12 @@ module.exports = (robot) ->
   robot.on 'github-event', (event) ->
     manager.announceEvent event, (room, message) ->
       robot.messageRoom(room, message)
+
+  robot.respond /listen for GitHub events on ([^/]+)\/(.+)$/i, (msg) ->
+    user = match[1]
+    repo = match[2]
+
+    robot.logger.info "Request to add GitHub events hook to #{user}/#{repo} received"
+
+    manager = new HookManager(robot, msg)
+    manager.addHook(user, repo)
