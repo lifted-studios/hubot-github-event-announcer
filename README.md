@@ -41,6 +41,16 @@ To enable the script, add the `hubot-github-event-announcer` entry to the `exter
 ["hubot-github-event-announcer"]
 ```
 
+### Setting up GitHub Event Hooks Using Hubot
+
+In order to easily add GitHub event hooks, Hubot will respond to the command:
+
+> hubot listen for GitHub events on &lt;user&gt;/&lt;repo&gt;
+
+Where `user` is the GitHub user name for the repository and `repo` is the GitHub repository name. When it receives this command, it will attempt to use the GitHub API to add an event hook to the GitHub repository at `https://github.com/user/repo`. It will listen for all GitHub events.
+
+In order for Hubot to add the hooks on your behalf, you must obtain an OAuth token and store it in the environment variable `HUBOT_GITHUB_EVENT_HOOK_TOKEN`. Also, Hubot will attempt to determine the URL where the hook can be delivered from either the `HEROKU_URL` environment variable, if deployed to Heroku, or the `HUBOT_GITHUB_EVENT_BASE_URL` environment variable.
+
 ## Configuration
 
 The GitHub Event Announcer responds to the URL `http://hubot.example.com/hubot/github-events?room=someRoom` where:
@@ -51,7 +61,9 @@ The GitHub Event Announcer responds to the URL `http://hubot.example.com/hubot/g
 It also can be configured using the following environment values:
 
 * `HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS` &mdash; If present, announces exceptions that occur during formatting
+* `HUBOT_GITHUB_EVENT_ANNOUNCE_UNHANDLED` &mdash; If present, announces events that it doesn't understand by just dumping the JSON
 * `HUBOT_GITHUB_EVENT_DEFAULT_ROOM` &mdash; If no room is specified in the hook, the announcer will send events to this room
+* `HUBOT_GITHUB_EVENT_SECRET` &mdash; Currently unused except when creating hooks, but will eventually be used to verify the authenticity of GitHub events
 
 ## Copyright
 

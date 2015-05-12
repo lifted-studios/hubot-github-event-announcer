@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.9.0** &mdash; *Released: 12 May 2015*
+
+* Add experimental command for adding GitHub event hooks
+
 ## **v0.8.0** &mdash; *Released: 10 May 2015*
 
 * Added blockquote formatting to all comments
