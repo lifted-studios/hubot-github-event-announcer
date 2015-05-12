@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.9.1** &mdash; *Released: 12 May 2015*
+
+* :bug: Fix bug in responder
+
 ## **v0.9.0** &mdash; *Released: 12 May 2015*
 
 * Add experimental command for adding GitHub event hooks
