@@ -53,6 +53,7 @@ class HookManager
         active: true
         config:
           content_type: 'json'
+          secret: process.env.HUBOT_GITHUB_EVENT_SECRET
           url: url
         events: ALL_EVENTS
 
