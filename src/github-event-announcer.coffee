@@ -25,15 +25,15 @@ EventManager = require './event-manager'
 HookManager = require './hook-manager'
 
 module.exports = (robot) ->
-  manager = new EventManager(robot)
+  eventManager = new EventManager(robot)
 
   robot.router.post '/hubot/github-events', (req, res) ->
-    manager.receiveHook req, (event) ->
+    eventManager.receiveHook req, (event) ->
       robot.emit 'github-event', event
       res.send(204)
 
   robot.on 'github-event', (event) ->
-    manager.announceEvent event, (room, message) ->
+    eventManager.announceEvent event, (room, message) ->
       robot.messageRoom(room, message)
 
   robot.respond /listen for GitHub events on ([^/]+)\/(.+)$/i, (msg) ->
@@ -42,5 +42,5 @@ module.exports = (robot) ->
 
     robot.logger.info "Request to add GitHub events hook to #{user}/#{repo} received"
 
-    manager = new HookManager(robot, msg)
-    manager.addHook(user, repo)
+    hookManager = new HookManager(robot, msg)
+    hookManager.addHook(user, repo)
