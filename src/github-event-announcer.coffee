@@ -37,8 +37,8 @@ module.exports = (robot) ->
       robot.messageRoom(room, message)
 
   robot.respond /listen for GitHub events on ([^/]+)\/(.+)$/i, (msg) ->
-    user = match[1]
-    repo = match[2]
+    user = msg.match[1]
+    repo = msg.match[2]
 
     robot.logger.info "Request to add GitHub events hook to #{user}/#{repo} received"
 
