@@ -43,9 +43,10 @@ class HookManager
       @robot.http(apiUrl)
         .header('Accept', 'application/json')
         .header('Authorization', "token #{token}")
+        .header('User-Agent', 'lee-dohm')
         .post(data) (error, response, body) =>
           if error
-            @robot.logger.error error.toString()
+            @robot.logger.error util.inspect(error)
             @message.reply """
               I encountered an error while adding the GitHub events hook to #{user}/#{repo} ...
 
@@ -53,8 +54,14 @@ class HookManager
               """
             return
 
-          @robot.logger.info util.inspect(response)
-          @message.reply "I was able to successfully add the GitHub events hook to #{user}/#{repo}"
+          if response.statusCode is 200 or response.statusCode is 204
+            @message.reply "I was able to successfully add the GitHub events hook"
+          else
+            @robot.logger.info util.inspect(response)
+            @robot.logger.info util.inspect(body)
+            reply = "Server returned the response: #{response.statusCode} #{response.statusMessage}"
+            @message.reply reply
+
     catch e
       @message.reply e.message
 
