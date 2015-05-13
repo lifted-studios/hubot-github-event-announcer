@@ -33,13 +33,14 @@ class HookManager
           url: url
         events: ALL_EVENTS
 
+      apiUrl = "https://api.github.com/repos/#{user}/#{repo}/hooks"
       @robot.logger.info """
-        Sending request to add GitHub events hook for #{user}/#{repo} to: https://api.github.com/repos/#{user}/#{repo}/hooks"
+        Sending request to add GitHub events hook for #{user}/#{repo} to: #{apiUrl}
 
         #{util.inspect(data)}
         """
 
-      @robot.http("https://api.github.com/repos/#{user}/#{repo}/hooks")
+      @robot.http(apiUrl)
         .header('Accept', 'application/json')
         .header('Authorization', "token #{token}")
         .post(data) (error, response, body) =>
