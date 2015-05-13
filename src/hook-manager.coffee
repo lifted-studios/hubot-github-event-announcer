@@ -3,33 +3,7 @@ util = require 'util'
 # The list of all GitHub events.
 #
 # See: https://developer.github.com/v3/activity/events/types/
-ALL_EVENTS = [
-  'commit_comment'
-  'create'
-  'delete'
-  'deployment'
-  'deployment_status'
-  'download'
-  'follow'
-  'fork'
-  'fork_apply'
-  'gist'
-  'gollum'
-  'issue_comment'
-  'issues'
-  'member'
-  'membership'
-  'page_build'
-  'public'
-  'pull_request'
-  'pull_request_review_comment'
-  'push'
-  'release'
-  'repository'
-  'status'
-  'team_add'
-  'watch'
-]
+ALL_EVENTS = ['*']
 
 # Public: Manages GitHub event hooks.
 class HookManager
