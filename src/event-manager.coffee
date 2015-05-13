@@ -1,8 +1,8 @@
 util = require 'util'
 
-# Manages the event lifecycle.
+# Public: Manages receiving and announcing GitHub events.
 class EventManager
-  # Initializes a manager for the given Robot.
+  # Public: Initializes a manager for the given Robot.
   #
   # * `robot` Hubot to work with to handle events.
   constructor: (@robot) ->
@@ -58,6 +58,9 @@ class EventManager
     @robot.logger.debug "Received event: #{JSON.stringify(event)}"
     emit(event)
 
+  # Private: Gets the list of event formatters.
+  #
+  # Returns an {Object} of event names mapped to their formatter.
   getFormatters: ->
     require './formatters/all'
 
