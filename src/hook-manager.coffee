@@ -59,15 +59,16 @@ class HookManager
           url: url
         events: ALL_EVENTS
 
-      @robot.logger.info "Sending request to add GitHub events hook for #{user}/#{repo} to:
-        https://api.github.com/repos/#{user}/#{repo}/hooks"
+      @robot.logger.info """
+        Sending request to add GitHub events hook for #{user}/#{repo} to: https://api.github.com/repos/#{user}/#{repo}/hooks"
+
+        #{util.inspect(data)}
+        """
 
       @robot.http("https://api.github.com/repos/#{user}/#{repo}/hooks")
         .header('Accept', 'application/json')
         .header('Authorization', "token #{token}")
         .post(data) (error, response, body) =>
-          @robot.logger.info "Response code from add hook: #{response.status}"
-
           if error
             @robot.logger.error error.toString()
             @message.reply """
@@ -78,7 +79,6 @@ class HookManager
             return
 
           @robot.logger.info util.inspect(response)
-
           @message.reply "I was able to successfully add the GitHub events hook to #{user}/#{repo}"
     catch e
       @message.reply e.message
