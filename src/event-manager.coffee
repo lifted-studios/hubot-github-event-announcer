@@ -1,3 +1,5 @@
+util = require 'util'
+
 # Manages the event lifecycle.
 class EventManager
   # Initializes a manager for the given Robot.
@@ -23,14 +25,14 @@ class EventManager
         announce(event.room, message)
       else
         @robot.logger.info "Formatter for #{event.type} event refused to format:
-          #{JSON.stringify(event)}"
+          #{util.inspect(event)}"
 
     catch err
       if process.env.HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS
         announce event.room, """
           Exception occurred while formatting #{event.type} event
 
-          #{JSON.stringify(err, null, 2)}
+          #{util.inspect(err)}
           """
 
       @robot.emit 'error', err, "Exception occurred while formatting #{event.type} event"
@@ -53,7 +55,7 @@ class EventManager
       signature: req.get('X-Github-Signature')
       type: req.get('X-Github-Event')
 
-    @robot.logger.info "Received event: #{JSON.stringify(event)}"
+    @robot.logger.debug "Received event: #{JSON.stringify(event)}"
     emit(event)
 
   getFormatters: ->
