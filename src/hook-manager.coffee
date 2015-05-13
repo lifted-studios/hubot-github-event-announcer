@@ -37,7 +37,7 @@ class HookManager
         .header('Accept', 'application/json')
         .header('Authorization', "token #{token}")
         .header('User-Agent', 'lee-dohm')
-        .post(data) (error, response, body) =>
+        .post(JSON.stringify(data)) (error, response, body) =>
           if error
             @robot.logger.error util.inspect(error)
             @message.reply """
@@ -47,10 +47,10 @@ class HookManager
               """
             return
 
-          if response.statusCode is 200 or response.statusCode is 204
+          if 200 >= response.statusCode <= 299
+            @robot.logger.info util.inspect(body)
             @message.reply "I was able to successfully add the GitHub events hook"
           else
-            @robot.logger.info util.inspect(response)
             @robot.logger.info util.inspect(body)
             reply = "Server returned the response: #{response.statusCode} #{response.statusMessage}"
             @message.reply reply
