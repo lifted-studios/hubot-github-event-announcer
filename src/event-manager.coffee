@@ -55,7 +55,7 @@ class EventManager
       signature: req.get('X-Github-Signature')
       type: req.get('X-Github-Event')
 
-    @robot.logger.debug "Received event: #{JSON.stringify(event)}"
+    @robot.logger.info "Received event: #{util.inspect(event)}"
     emit(event)
 
   # Private: Gets the list of event formatters.
