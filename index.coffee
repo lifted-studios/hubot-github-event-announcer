@@ -1,7 +1,10 @@
 fs = require 'fs'
 path = require 'path'
 
-scripts = ['github-event-announcer.coffee']
+scripts = [
+  'github-event-announcer.coffee'
+  'github-hook-manager.coffee'
+]
 
 module.exports = (robot) ->
   scriptsPath = path.resolve(__dirname, 'src')
