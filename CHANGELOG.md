@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.9.3** &mdash; *Released: 13 May 2015*
+
+* Convert request to JSON so that it is actually accepted
+
 ## **v0.9.2** &mdash; *Released: 12 May 2015*
 
 * Add more logging
