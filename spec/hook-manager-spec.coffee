@@ -3,7 +3,7 @@ faker = require 'faker'
 HookManager = require '../src/hook-manager'
 
 describe 'HookManager', ->
-  [manager, message, oldEnv, repo, robot, url, user] = []
+  [client, manager, message, oldEnv, repo, robot, url, user] = []
 
   beforeEach ->
     oldEnv = process.env
@@ -11,11 +11,14 @@ describe 'HookManager', ->
     process.env.HEROKU_URL = 'http://example.com'
     process.env.HUBOT_GITHUB_EVENT_BASE_URL = 'http://base.example.com'
 
-    message =
-      reply: ->
+    client = jasmine.createSpyObj('client', ['header', 'post'])
+    logger = jasmine.createSpyObj('logger', ['info'])
+    message = jasmine.createSpyObj('message', ['reply'])
+    robot = jasmine.createSpyObj('robot', ['http', 'logger'])
 
-    robot =
-      http: ->
+    # robot.logger.andReturn(logger)
+    robot.http.andReturn(client)
+    client.header.andReturn(client)
 
     repo = faker.lorem.words(1)
     user = faker.internet.userName()
@@ -29,20 +32,9 @@ describe 'HookManager', ->
     expect(manager.robot).toBe robot
 
   it 'stores the message', ->
-    expect(manager.msg).toBe message
+    expect(manager.message).toBe message
 
   describe 'adding a web hook', ->
-    [body, client] = []
-
-    beforeEach ->
-      client =
-        header: ->
-        post: ->
-
-      spyOn(robot, 'http').andReturn(client)
-      spyOn(client, 'header').andReturn(client)
-      spyOn(client, 'post')
-
     it 'calls the correct URL', ->
       manager.addHook(user, repo)
 
@@ -53,9 +45,12 @@ describe 'HookManager', ->
 
       expect(client.header).toHaveBeenCalledWith('Authorization', 'token 1234abcd')
 
-    it 'replies with an error if the token is not set', ->
-      spyOn(message, 'reply')
+    it 'sends the user agent header', ->
+      manager.addHook(user, repo)
 
+      expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
+
+    it 'replies with an error if the token is not set', ->
       delete process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
       manager.addHook(user, repo)
 
@@ -89,7 +84,6 @@ describe 'HookManager', ->
         it 'responds with an error message if neither are set', ->
           delete process.env.HEROKU_URL
           delete process.env.HUBOT_GITHUB_EVENT_BASE_URL
-          spyOn(message, 'reply')
 
           addHook(user, repo)
 
@@ -102,30 +96,4 @@ describe 'HookManager', ->
 
       describe 'body.events', ->
         it 'lists all events', ->
-          expect(addHook(user, repo).events).toEqual [
-            'commit_comment'
-            'create'
-            'delete'
-            'deployment'
-            'deployment_status'
-            'download'
-            'follow'
-            'fork'
-            'fork_apply'
-            'gist'
-            'gollum'
-            'issue_comment'
-            'issues'
-            'member'
-            'membership'
-            'page_build'
-            'public'
-            'pull_request'
-            'pull_request_review_comment'
-            'push'
-            'release'
-            'repository'
-            'status'
-            'team_add'
-            'watch'
-          ]
+          expect(addHook(user, repo).events).toEqual ['*']
