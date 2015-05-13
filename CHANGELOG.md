@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.9.2** &mdash; *Released: 12 May 2015*
+
+* Add more logging
+
 ## **v0.9.1** &mdash; *Released: 12 May 2015*
 
 * :bug: Fix bug in responder

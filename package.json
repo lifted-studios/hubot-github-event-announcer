@@ -1,6 +1,6 @@
 {
   "name": "hubot-github-event-announcer",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Announces GitHub webhook events",
   "repository": {
     "type": "git",
