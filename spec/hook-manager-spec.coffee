@@ -62,7 +62,7 @@ describe 'HookManager', ->
         client.post.mostRecentCall.args?[0]
 
       it 'includes the basic information', ->
-        body = addHook(user, repo)
+        body = JSON.parse(addHook(user, repo))
 
         expect(body.name).toEqual 'web'
         expect(body.active).toEqual true
@@ -70,13 +70,13 @@ describe 'HookManager', ->
 
       describe 'body.config.url', ->
         it 'supplies the URL based on the HEROKU_URL environment variable by default', ->
-          body = addHook(user, repo)
+          body = JSON.parse(addHook(user, repo))
 
           expect(body.config.url).toEqual 'http://example.com/hubot/github-events'
 
         it 'uses the HUBOT_GITHUB_EVENT_BASE_URL as a backup URL', ->
           delete process.env.HEROKU_URL
-          body = addHook(user, repo)
+          body = JSON.parse(addHook(user, repo))
 
           expect(body.config.url).toEqual 'http://base.example.com/hubot/github-events'
 
@@ -89,10 +89,10 @@ describe 'HookManager', ->
           expect(message.reply).toHaveBeenCalled()
 
         it 'supplies the room name if specified', ->
-          body = addHook(user, repo, room: 'foo')
+          body = JSON.parse(addHook(user, repo, room: 'foo'))
 
           expect(body.config.url).toEqual 'http://example.com/hubot/github-events?room=foo'
 
       describe 'body.events', ->
         it 'lists all events', ->
-          expect(addHook(user, repo).events).toEqual ['*']
+          expect(JSON.parse(addHook(user, repo)).events).toEqual ['*']
