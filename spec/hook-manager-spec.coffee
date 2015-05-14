@@ -16,7 +16,6 @@ describe 'HookManager', ->
     message = jasmine.createSpyObj('message', ['reply'])
     robot = jasmine.createSpyObj('robot', ['http', 'logger'])
 
-    # robot.logger.andReturn(logger)
     robot.http.andReturn(client)
     client.header.andReturn(client)
 
