@@ -1,7 +1,7 @@
 path = require 'path'
 
 module.exports = (grunt) ->
-  jasmine = './node_modules/jasmine-focused/bin/jasmine-focused'
+  jasmine = './node_modules/jasmine-node/bin/jasmine-node'
 
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')

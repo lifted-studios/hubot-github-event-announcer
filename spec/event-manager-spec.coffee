@@ -101,7 +101,7 @@ describe 'EventManager', ->
       formatters.foo = (event) ->
         event
 
-      spyOn(manager, 'getFormatters').andReturn(formatters)
+      spyOn(manager, 'getFormatters').and.returnValue(formatters)
 
       body = faker.lorem.paragraphs()
       guid = uuid.v4()
@@ -176,7 +176,7 @@ describe 'EventManager', ->
         callAnnounceEvent(manager, event)
 
         expect(robot.emit).toHaveBeenCalled()
-        expect(robot.emit.mostRecentCall.args[0]).toEqual 'error'
+        expect(robot.emit.calls.mostRecent().args[0]).toEqual 'error'
 
       describe 'and HUBOT_GITHUB_EVENT_ANNOUNCE_EXCEPTIONS is defined', ->
         oldEnv = null
@@ -202,4 +202,4 @@ describe 'EventManager', ->
           callAnnounceEvent(manager, event)
 
           expect(robot.emit).toHaveBeenCalled()
-          expect(robot.emit.mostRecentCall.args[0]).toEqual 'error'
+          expect(robot.emit.calls.mostRecent().args[0]).toEqual 'error'

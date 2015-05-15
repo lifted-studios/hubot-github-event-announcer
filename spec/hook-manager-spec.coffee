@@ -16,8 +16,8 @@ describe 'HookManager', ->
     message = jasmine.createSpyObj('message', ['reply'])
     robot = jasmine.createSpyObj('robot', ['http', 'logger'])
 
-    robot.http.andReturn(client)
-    client.header.andReturn(client)
+    robot.http.and.returnValue(client)
+    client.header.and.returnValue(client)
 
     repo = faker.lorem.words(1)
     user = faker.internet.userName()
@@ -59,7 +59,7 @@ describe 'HookManager', ->
     describe 'post data', ->
       addHook = (user, repo, options = {}) ->
         manager.addHook(user, repo, options)
-        client.post.mostRecentCall.args?[0]
+        client.post.calls.mostRecent()?.args[0]
 
       it 'includes the basic information', ->
         body = JSON.parse(addHook(user, repo))

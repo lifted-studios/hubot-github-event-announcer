@@ -32,7 +32,7 @@
     "grunt": "~0.4.1",
     "hubot-mock-adapter": "^1.0.0",
     "hubot": "^2.11.0",
-    "jasmine-focused": "1.x",
+    "jasmine-node": "mhevery/jasmine-node#Jasmine2.0",
     "matchdep": "~0.1.2",
     "node-uuid": "~1.4.3"
   },
