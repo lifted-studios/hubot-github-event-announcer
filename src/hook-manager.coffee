@@ -22,7 +22,6 @@ class HookManager
   addHook: (user, repo, options = {}) ->
     try
       url = @buildHookUrl(user, repo, options)
-      token = @getToken()
 
       data =
         name: 'web'
@@ -33,10 +32,7 @@ class HookManager
           url: url
         events: ALL_EVENTS
 
-      @robot.http(@buildApiUrl(user, repo))
-        .header('Accept', 'application/json')
-        .header('Authorization', "token #{token}")
-        .header('User-Agent', 'lee-dohm')
+      @buildClient(user, repo)
         .post(JSON.stringify(data)) (error, response, body) =>
           if error
             @robot.logger.error util.inspect(error)
@@ -65,12 +61,7 @@ class HookManager
   # * `repo` {String} containing the GitHub repository name.
   listHooks: (user, repo) ->
     try
-      token = @getToken()
-
-      @robot.http(@buildApiUrl(user, repo))
-        .header('Accept', 'application/json')
-        .header('Authorization', "token #{token}")
-        .header('User-Agent', 'lee-dohm')
+      @buildClient(user, repo)
         .get() (error, response, body) =>
           if error
             @robot.logger.error util.inspect(error)
@@ -79,6 +70,8 @@ class HookManager
 
               #{error}
               """
+
+            return
 
           if 200 >= response.statusCode <= 299
             @robot.logger.info util.inspect(body)
@@ -99,6 +92,20 @@ class HookManager
   # Returns a {String} containing the API URL.
   buildApiUrl: (user, repo) ->
     "https://api.github.com/repos/#{user}/#{repo}/hooks"
+
+  # Private: Builds the client object to use to perform API requests.
+  #
+  # * `user` {String} containing the GitHub user name.
+  # * `repo` {String} containing the GitHub repository name.
+  #
+  # Returns an HTTP client {Object}.
+  buildClient: (user, repo) ->
+    token = @getToken()
+
+    @robot.http(@buildApiUrl(user, repo))
+      .header('Accept', 'application/json')
+      .header('Authorization', "token #{token}")
+      .header('User-Agent', 'lee-dohm')
 
   # Private: Builds the URL to use for receiving the web hooks.
   #
