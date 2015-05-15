@@ -25,7 +25,7 @@ Add the package `hubot-github-event-announcer` as a dependency in your Hubot `pa
 
 ```json
 "dependencies": {
-  "hubot-github-event-announcer": "0.7.0"
+  "hubot-github-event-announcer": "0.9.4"
 }
 ```
 
@@ -41,15 +41,16 @@ To enable the script, add the `hubot-github-event-announcer` entry to the `exter
 ["hubot-github-event-announcer"]
 ```
 
-### Setting up GitHub Event Hooks Using Hubot
+## Administering GitHub Web Hooks Using Hubot
 
-In order to easily add GitHub event hooks, Hubot will respond to the command:
+Hubot can:
 
-> hubot listen for GitHub events on &lt;user&gt;/&lt;repo&gt;
+* List web hooks &mdash; `hubot list hooks on <user>/<repo>`
+* Add GitHub event web hooks &mdash; `hubot listen for events on <user>/<repo>`
 
 Where `user` is the GitHub user name for the repository and `repo` is the GitHub repository name. When it receives this command, it will attempt to use the GitHub API to add an event hook to the GitHub repository at `https://github.com/user/repo`. It will listen for all GitHub events.
 
-In order for Hubot to add the hooks on your behalf, you must obtain an OAuth token and store it in the environment variable `HUBOT_GITHUB_EVENT_HOOK_TOKEN`. Also, Hubot will attempt to determine the URL where the hook can be delivered from either the `HEROKU_URL` environment variable, if deployed to Heroku, or the `HUBOT_GITHUB_EVENT_BASE_URL` environment variable.
+In order for Hubot to administer hooks on your behalf, you must obtain an OAuth token and store it in the environment variable `HUBOT_GITHUB_EVENT_HOOK_TOKEN`. Also, Hubot will attempt to determine the URL where the hook can be delivered from either the `HEROKU_URL` environment variable, if deployed to Heroku, or the `HUBOT_GITHUB_EVENT_BASE_URL` environment variable.
 
 ## Configuration
 
