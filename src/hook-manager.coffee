@@ -33,7 +33,7 @@ class HookManager
           url: url
         events: ALL_EVENTS
 
-      @robot.http("https://api.github.com/repos/#{user}/#{repo}/hooks")
+      @robot.http(@buildApiUrl(user, repo))
         .header('Accept', 'application/json')
         .header('Authorization', "token #{token}")
         .header('User-Agent', 'lee-dohm')
@@ -57,6 +57,48 @@ class HookManager
 
     catch e
       @message.reply e.message
+
+  # Public: List the web hooks installed on the GitHub repository identified by the `user` and
+  # `repo` names.
+  #
+  # * `user` {String} containing the GitHub user name.
+  # * `repo` {String} containing the GitHub repository name.
+  listHooks: (user, repo) ->
+    try
+      token = @getToken()
+
+      @robot.http(@buildApiUrl(user, repo))
+        .header('Accept', 'application/json')
+        .header('Authorization', "token #{token}")
+        .header('User-Agent', 'lee-dohm')
+        .get() (error, response, body) =>
+          if error
+            @robot.logger.error util.inspect(error)
+            @message.reply """
+              I encountered an error while listing the GitHub events hooks for #{user}/#{repo} ...
+
+              #{error}
+              """
+
+          if 200 >= response.statusCode <= 299
+            @robot.logger.info util.inspect(body)
+            @message.reply body
+          else
+            @robot.logger.info util.inspect(body)
+            reply = "Server returned the response: #{response.statusCode} #{response.statusMessage}"
+            @message.reply reply
+
+    catch e
+      @message.reply e.message
+
+  # Private: Builds the URL to use for querying the web hook API.
+  #
+  # * `user` {String} containing the GitHub user name.
+  # * `repo` {String} containing the GitHub repository name.
+  #
+  # Returns a {String} containing the API URL.
+  buildApiUrl: (user, repo) ->
+    "https://api.github.com/repos/#{user}/#{repo}/hooks"
 
   # Private: Builds the URL to use for receiving the web hooks.
   #

@@ -33,11 +33,44 @@ describe 'HookManager', ->
   it 'stores the message', ->
     expect(manager.message).toBe message
 
+  describe 'listing web hooks', ->
+    it 'calls the correct URL', ->
+      manager.listHooks(user, repo)
+
+      expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
+
+    it 'sends the accept header', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
+
+    it 'sends the authorization token', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('Authorization', 'token 1234abcd')
+
+    it 'sends the user agent header', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
+
+    it 'replies with an error if the token is not set', ->
+      delete process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
+      manager.listHooks(user, repo)
+
+      expect(client.header).not.toHaveBeenCalled()
+      expect(message.reply).toHaveBeenCalled()
+
   describe 'adding a web hook', ->
     it 'calls the correct URL', ->
       manager.addHook(user, repo)
 
       expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
+
+    it 'sends the accept header', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
 
     it 'sends the authorization token', ->
       manager.addHook(user, repo)
