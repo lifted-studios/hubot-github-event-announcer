@@ -75,7 +75,9 @@ class HookManager
 
           if 200 >= response.statusCode <= 299
             @robot.logger.info util.inspect(body)
-            @message.reply body
+            hooks = JSON.parse(body)
+            reply = "#{user}/#{repo} has the following hooks:\n\n#{@formatHooksList(hooks)}"
+            @message.reply reply
           else
             @robot.logger.info util.inspect(body)
             reply = "Server returned the response: #{response.statusCode} #{response.statusMessage}"
@@ -136,5 +138,20 @@ class HookManager
       throw new Error('HUBOT_GITHUB_EVENT_HOOK_TOKEN is not set, cannot add hook')
 
     token
+
+  # Private: Formats the list of hooks for display.
+  #
+  # * `hooks` {Array} of hooks for the repository.
+  #
+  # Returns a {String} containing the list of hooks for display.
+  formatHooksList: (hooks) ->
+    output = []
+
+    for hook in hooks
+      switch hook.name
+        when 'web' then output.push "#{hook.id}: #{hook.name} -- #{hook.config.url}"
+        else output.push "#{hook.id}: #{hook.name}"
+
+    output.join("\n")
 
 module.exports = HookManager
