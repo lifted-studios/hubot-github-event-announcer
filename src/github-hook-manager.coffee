@@ -5,7 +5,9 @@
 #   None
 #
 # Configuration:
+#   HUBOT_GITHUB_EVENT_BASE_URL - Base URL used for the web hook (or HEROKU_URL)
 #   HUBOT_GITHUB_EVENT_DEFAULT_ROOM - Room name of the default room to announce events in
+#   HUBOT_GITHUB_EVENT_HOOK_TOKEN - GitHub OAuth token used to administer web hooks
 #   HUBOT_GITHUB_EVENT_SECRET - Secret that matches the value stored in the GitHub hook definition
 #
 # Commands:
