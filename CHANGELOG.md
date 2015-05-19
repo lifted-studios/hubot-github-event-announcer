@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* Add command for listing hooks on a GitHub repository
+
 ## **v0.9.3** &mdash; *Released: 13 May 2015*
 
 * Convert request to JSON so that it is actually accepted
