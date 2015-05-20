@@ -34,24 +34,25 @@ class HookManager
 
       @buildClient(user, repo)
         .post(JSON.stringify(data)) (error, response, body) =>
-          if error
-            @robot.logger.error util.inspect(error)
-            @message.reply """
-              I encountered an error while adding the GitHub events hook to #{user}/#{repo} ...
+          reply = switch
+            when error
+              @robot.logger.error util.inspect(error)
+              """
+              I encountered an error while adding the GitHub event hook on #{user}/#{repo}
 
               #{error}
               """
-            return
+            when 200 >= response.statusCode <= 299
+              @robot.logger.info util.inspect(body)
+              'I was able to successfully add the GitHub events hook'
+            else
+              @robot.logger.info util.inspect(body)
+              "Server returned: #{response.statusCode} #{response.statusMessage}"
 
-          if 200 >= response.statusCode <= 299
-            @robot.logger.info util.inspect(body)
-            @message.reply "I was able to successfully add the GitHub events hook"
-          else
-            @robot.logger.info util.inspect(body)
-            reply = "Server returned the response: #{response.statusCode} #{response.statusMessage}"
-            @message.reply reply
+          @message.reply reply
 
     catch e
+      @robot.logger.error util.inspect(e)
       @message.reply e.message
 
   # Public: List the web hooks installed on the GitHub repository identified by the `user` and
@@ -63,25 +64,23 @@ class HookManager
     try
       @buildClient(user, repo)
         .get() (error, response, body) =>
-          if error
-            @robot.logger.error util.inspect(error)
-            @message.reply """
-              I encountered an error while listing the GitHub events hooks for #{user}/#{repo} ...
+          reply = switch
+            when error
+              @robot.logger.error util.inspect(error)
+              """
+              I encountered an error while listing the GitHub event hooks on #{user}/#{repo}
 
               #{error}
               """
+            when 200 >= response.statusCode <= 299
+              @robot.logger.info util.inspect(body)
+              hooks = JSON.parse(body)
+              "#{user}/#{repo} has the following hooks:\n\n#{@formatHooksList(hooks)}"
+            else
+              @robot.logger.info util.inspect(body)
+              "Server returned: #{response.statusCode} #{response.statusMessage}"
 
-            return
-
-          if 200 >= response.statusCode <= 299
-            @robot.logger.info util.inspect(body)
-            hooks = JSON.parse(body)
-            reply = "#{user}/#{repo} has the following hooks:\n\n#{@formatHooksList(hooks)}"
-            @message.reply reply
-          else
-            @robot.logger.info util.inspect(body)
-            reply = "Server returned the response: #{response.statusCode} #{response.statusMessage}"
-            @message.reply reply
+          @message.reply reply
 
     catch e
       @message.reply e.message
