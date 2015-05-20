@@ -35,15 +35,10 @@ class HookManager
       @buildClient(user, repo)
         .post(JSON.stringify(data)) (error, response, body) =>
           throw error if error
+          throw response unless isSuccessful(response.statusCode)
           @robot.logger.info util.inspect(body)
 
-          reply = switch
-            when 200 >= response.statusCode <= 299
-              'I was able to successfully add the GitHub events hook'
-            else
-              "Server returned: #{response.statusCode} #{response.statusMessage}"
-
-          @message.reply reply
+          @message.reply 'I was able to successfully add the GitHub events hook'
 
     catch e
       @handleError(e, "adding the GitHub event hook to #{user}/#{repo}")
@@ -58,17 +53,11 @@ class HookManager
       @buildClient(user, repo)
         .get() (error, response, body) =>
           throw error if error
-          throw response if response.statusCode < 200 or response.statusCode >= 300
+          throw response unless isSuccessful(response.statusCode)
           @robot.logger.info util.inspect(body)
 
-          reply = switch
-            when 200 >= response.statusCode <= 299
-              hooks = JSON.parse(body)
-              "#{user}/#{repo} has the following hooks:\n\n#{@formatHooksList(hooks)}"
-            else
-              "Server returned: #{response.statusCode} #{response.statusMessage}"
-
-          @message.reply reply
+          hooks = JSON.parse(body)
+          @message.reply "#{user}/#{repo} has the following hooks:\n\n#{@formatHooksList(hooks)}"
 
     catch e
       @handleError(e, "listing the GitHub event hooks on #{user}/#{repo}")
@@ -155,5 +144,13 @@ class HookManager
         #{error.message}
         #{error.stack}
         """
+
+  # Private: Determine if the HTTP response indicates the request was successful.
+  #
+  # * `response` {Object} containing the HTTP response.
+  #
+  # Returns a {Boolean} flag indicating whether the request was successful.
+  isSuccessful: (response) ->
+    200 >= response.statusCode < 300
 
 module.exports = HookManager
