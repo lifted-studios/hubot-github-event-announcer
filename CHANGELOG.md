@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.10.0** &mdash; *Released: 19 May 2015*
 
 * Add command for listing hooks on a GitHub repository
 
