@@ -34,26 +34,25 @@ class HookManager
 
       @buildClient(user, repo)
         .post(JSON.stringify(data)) (error, response, body) =>
-          reply = switch
-            when error
-              @robot.logger.error util.inspect(error)
-              """
-              I encountered an error while adding the GitHub event hook on #{user}/#{repo}
+          throw error if error
+          @robot.logger.info util.inspect(body)
 
-              #{error}
-              """
+          reply = switch
             when 200 >= response.statusCode <= 299
-              @robot.logger.info util.inspect(body)
               'I was able to successfully add the GitHub events hook'
             else
-              @robot.logger.info util.inspect(body)
               "Server returned: #{response.statusCode} #{response.statusMessage}"
 
           @message.reply reply
 
     catch e
       @robot.logger.error util.inspect(e)
-      @message.reply e.message
+      @message.reply """
+        I encountered an error while adding the GitHub event hook to #{user}/#{repo}
+
+        #{e.message}
+        #{e.stack}
+        """
 
   # Public: List the web hooks installed on the GitHub repository identified by the `user` and
   # `repo` names.
@@ -64,26 +63,26 @@ class HookManager
     try
       @buildClient(user, repo)
         .get() (error, response, body) =>
-          reply = switch
-            when error
-              @robot.logger.error util.inspect(error)
-              """
-              I encountered an error while listing the GitHub event hooks on #{user}/#{repo}
+          throw error if error
+          @robot.logger.info util.inspect(body)
 
-              #{error}
-              """
+          reply = switch
             when 200 >= response.statusCode <= 299
-              @robot.logger.info util.inspect(body)
               hooks = JSON.parse(body)
               "#{user}/#{repo} has the following hooks:\n\n#{@formatHooksList(hooks)}"
             else
-              @robot.logger.info util.inspect(body)
               "Server returned: #{response.statusCode} #{response.statusMessage}"
 
           @message.reply reply
 
     catch e
-      @message.reply e.message
+      @robot.logger.error util.inspect(e)
+      @message.reply """
+        I encountered an error while listing the GitHub event hooks on #{user}/#{repo}
+
+        #{e.message}
+        #{e.stack}
+        """
 
   # Private: Builds the URL to use for querying the web hook API.
   #
@@ -132,9 +131,7 @@ class HookManager
   # Returns a {String} containing the token text.
   getToken: ->
     token = process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
-
-    unless token
-      throw new Error('HUBOT_GITHUB_EVENT_HOOK_TOKEN is not set, cannot add hook')
+    throw new Error('HUBOT_GITHUB_EVENT_HOOK_TOKEN is not set, cannot add hook') unless token
 
     token
 

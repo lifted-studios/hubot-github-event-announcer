@@ -12,9 +12,11 @@ describe 'HookManager', ->
     process.env.HUBOT_GITHUB_EVENT_BASE_URL = 'http://base.example.com'
 
     client = jasmine.createSpyObj('client', ['header', 'post'])
-    logger = jasmine.createSpyObj('logger', ['info'])
+    logger = jasmine.createSpyObj('logger', ['error', 'info'])
     message = jasmine.createSpyObj('message', ['reply'])
-    robot = jasmine.createSpyObj('robot', ['http', 'logger'])
+    robot = jasmine.createSpyObj('robot', ['http'])
+
+    robot.logger = logger
 
     robot.http.and.returnValue(client)
     client.header.and.returnValue(client)
