@@ -46,13 +46,7 @@ class HookManager
           @message.reply reply
 
     catch e
-      @robot.logger.error util.inspect(e)
-      @message.reply """
-        I encountered an error while adding the GitHub event hook to #{user}/#{repo}
-
-        #{e.message}
-        #{e.stack}
-        """
+      @handleError(e, "adding the GitHub event hook to #{user}/#{repo}")
 
   # Public: List the web hooks installed on the GitHub repository identified by the `user` and
   # `repo` names.
@@ -64,6 +58,7 @@ class HookManager
       @buildClient(user, repo)
         .get() (error, response, body) =>
           throw error if error
+          throw response if response.statusCode < 200 or response.statusCode >= 300
           @robot.logger.info util.inspect(body)
 
           reply = switch
@@ -76,13 +71,7 @@ class HookManager
           @message.reply reply
 
     catch e
-      @robot.logger.error util.inspect(e)
-      @message.reply """
-        I encountered an error while listing the GitHub event hooks on #{user}/#{repo}
-
-        #{e.message}
-        #{e.stack}
-        """
+      @handleError(e, "listing the GitHub event hooks on #{user}/#{repo}")
 
   # Private: Builds the URL to use for querying the web hook API.
   #
@@ -149,5 +138,22 @@ class HookManager
         else output.push "#{hook.id}: #{hook.name}"
 
     output.join("\n")
+
+  # Private: Handles the error by reporting it with the given message.
+  #
+  # * `error` {Object} describing the error.
+  # * `message` {String} describing what was being done when the error occurred.
+  handleError: (error, message) ->
+    @robot.logger.error util.inspect(error)
+
+    if error.statusCode
+      @message.reply "Server returned: #{error.statusCode} #{error.statusMessage}"
+    else
+      @message.reply """
+        I encountered an error while #{message}
+
+        #{error.message}
+        #{error.stack}
+        """
 
 module.exports = HookManager
