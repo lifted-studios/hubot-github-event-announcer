@@ -1,5 +1,3 @@
-path = require 'path'
-
 module.exports = (grunt) ->
   jasmine = './node_modules/jasmine-node/bin/jasmine-node'
 

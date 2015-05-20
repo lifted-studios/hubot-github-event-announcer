@@ -32,7 +32,6 @@
     "grunt": "~0.4.1",
     "hubot": "^2.11.0",
     "jasmine-node": "mhevery/jasmine-node#Jasmine2.0",
-    "matchdep": "~0.1.2",
     "node-uuid": "~1.4.3"
   },
   "main": "index.coffee",
