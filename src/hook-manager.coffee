@@ -35,7 +35,7 @@ class HookManager
       @buildClient(user, repo)
         .post(JSON.stringify(data)) (error, response, body) =>
           throw error if error
-          throw response unless isSuccessful(response.statusCode)
+          throw response unless @isSuccessful(response)
           @robot.logger.info util.inspect(body)
 
           @message.reply 'I was able to successfully add the GitHub events hook'
@@ -53,7 +53,7 @@ class HookManager
       @buildClient(user, repo)
         .get() (error, response, body) =>
           throw error if error
-          throw response unless isSuccessful(response.statusCode)
+          throw response unless @isSuccessful(response)
           @robot.logger.info util.inspect(body)
 
           hooks = JSON.parse(body)
