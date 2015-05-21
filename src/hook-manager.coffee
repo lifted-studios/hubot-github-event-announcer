@@ -151,6 +151,6 @@ class HookManager
   #
   # Returns a {Boolean} flag indicating whether the request was successful.
   isSuccessful: (response) ->
-    200 >= response.statusCode < 300
+    200 <= response.statusCode < 300
 
 module.exports = HookManager

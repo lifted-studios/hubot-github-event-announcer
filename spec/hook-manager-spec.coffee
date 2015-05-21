@@ -1,9 +1,10 @@
 faker = require 'faker'
+util = require 'util'
 
 HookManager = require '../src/hook-manager'
 
 describe 'HookManager', ->
-  [client, manager, message, oldEnv, repo, robot, url, user] = []
+  [client, error, manager, message, oldEnv, repo, robot, url, user] = []
 
   beforeEach ->
     oldEnv = process.env
@@ -11,7 +12,8 @@ describe 'HookManager', ->
     process.env.HEROKU_URL = 'http://example.com'
     process.env.HUBOT_GITHUB_EVENT_BASE_URL = 'http://base.example.com'
 
-    client = jasmine.createSpyObj('client', ['header', 'post'])
+    client = jasmine.createSpyObj('client', ['get', 'header', 'post'])
+    error = new Error('OMGWTFBBQ!!!')
     logger = jasmine.createSpyObj('logger', ['error', 'info'])
     message = jasmine.createSpyObj('message', ['reply'])
     robot = jasmine.createSpyObj('robot', ['http'])
@@ -34,34 +36,6 @@ describe 'HookManager', ->
 
   it 'stores the message', ->
     expect(manager.message).toBe message
-
-  describe 'listing web hooks', ->
-    it 'calls the correct URL', ->
-      manager.listHooks(user, repo)
-
-      expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
-
-    it 'sends the accept header', ->
-      manager.listHooks(user, repo)
-
-      expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
-
-    it 'sends the authorization token', ->
-      manager.listHooks(user, repo)
-
-      expect(client.header).toHaveBeenCalledWith('Authorization', 'token 1234abcd')
-
-    it 'sends the user agent header', ->
-      manager.listHooks(user, repo)
-
-      expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
-
-    it 'replies with an error if the token is not set', ->
-      delete process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
-      manager.listHooks(user, repo)
-
-      expect(client.header).not.toHaveBeenCalled()
-      expect(message.reply).toHaveBeenCalled()
 
   describe 'adding a web hook', ->
     it 'calls the correct URL', ->
@@ -131,3 +105,50 @@ describe 'HookManager', ->
       describe 'body.events', ->
         it 'lists all events', ->
           expect(JSON.parse(addHook(user, repo)).events).toEqual ['*']
+
+  describe 'listing web hooks', ->
+    it 'calls the correct URL', ->
+      manager.listHooks(user, repo)
+
+      expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
+
+    it 'sends the accept header', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
+
+    it 'sends the authorization token', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('Authorization', 'token 1234abcd')
+
+    it 'sends the user agent header', ->
+      manager.listHooks(user, repo)
+
+      expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
+
+    it 'replies with an error if the token is not set', ->
+      delete process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
+      manager.listHooks(user, repo)
+
+      expect(client.header).not.toHaveBeenCalled()
+      expect(message.reply).toHaveBeenCalled()
+
+    it 'replies with an error if an error is returned', ->
+      client.get.and.returnValue (callback) ->
+        callback(error, null, null)
+
+      manager.listHooks(user, repo)
+
+      expect(robot.logger.error).toHaveBeenCalledWith(util.inspect(error))
+
+    it 'replies with an error if an unsuccessful response is returned', ->
+      response =
+        statusCode: 404
+
+      client.get.and.returnValue (callback) ->
+        callback(null, response, '{}')
+
+      manager.listHooks(user, repo)
+
+      expect(robot.logger.error).toHaveBeenCalledWith(util.inspect(response))
