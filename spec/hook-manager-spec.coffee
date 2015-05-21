@@ -107,25 +107,21 @@ describe 'HookManager', ->
           expect(JSON.parse(addHook(user, repo)).events).toEqual ['*']
 
   describe 'listing web hooks', ->
-    it 'calls the correct URL', ->
-      manager.listHooks(user, repo)
+    describe 'constructing the web request', ->
+      beforeEach ->
+        manager.listHooks(user, repo)
 
-      expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
+      it 'calls the correct URL', ->
+        expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
 
-    it 'sends the accept header', ->
-      manager.listHooks(user, repo)
+      it 'sends the accept header', ->
+        expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
 
-      expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
+      it 'sends the authorization token', ->
+        expect(client.header).toHaveBeenCalledWith('Authorization', 'token 1234abcd')
 
-    it 'sends the authorization token', ->
-      manager.listHooks(user, repo)
-
-      expect(client.header).toHaveBeenCalledWith('Authorization', 'token 1234abcd')
-
-    it 'sends the user agent header', ->
-      manager.listHooks(user, repo)
-
-      expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
+      it 'sends the user agent header', ->
+        expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
 
     describe 'error handling', ->
       beforeEach ->
