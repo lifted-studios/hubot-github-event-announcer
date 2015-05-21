@@ -44,7 +44,7 @@ describe 'HookManager', ->
       expect(robot.http).toHaveBeenCalledWith("https://api.github.com/repos/#{user}/#{repo}/hooks")
 
     it 'sends the accept header', ->
-      manager.listHooks(user, repo)
+      manager.addHook(user, repo)
 
       expect(client.header).toHaveBeenCalledWith('Accept', 'application/json')
 
