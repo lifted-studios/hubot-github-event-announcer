@@ -127,28 +127,31 @@ describe 'HookManager', ->
 
       expect(client.header).toHaveBeenCalledWith('User-Agent', 'lee-dohm')
 
-    it 'replies with an error if the token is not set', ->
-      delete process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
-      manager.listHooks(user, repo)
+    describe 'error handling', ->
+      beforeEach ->
+        spyOn(manager, 'handleError')
 
-      expect(client.header).not.toHaveBeenCalled()
-      expect(message.reply).toHaveBeenCalled()
+      it 'logs an error if the token is not set', ->
+        delete process.env.HUBOT_GITHUB_EVENT_HOOK_TOKEN
+        manager.listHooks(user, repo)
 
-    it 'replies with an error if an error is returned', ->
-      client.get.and.returnValue (callback) ->
-        callback(error, null, null)
+        expect(manager.handleError).toHaveBeenCalled()
 
-      manager.listHooks(user, repo)
+      it 'logs an error if an error is returned', ->
+        client.get.and.returnValue (callback) ->
+          callback(error, null, null)
 
-      expect(robot.logger.error).toHaveBeenCalledWith(util.inspect(error))
+        manager.listHooks(user, repo)
 
-    it 'replies with an error if an unsuccessful response is returned', ->
-      response =
-        statusCode: 404
+        expect(manager.handleError).toHaveBeenCalled()
 
-      client.get.and.returnValue (callback) ->
-        callback(null, response, '{}')
+      it 'logs an error if an unsuccessful response is returned', ->
+        response =
+          statusCode: 404
 
-      manager.listHooks(user, repo)
+        client.get.and.returnValue (callback) ->
+          callback(null, response, '{}')
 
-      expect(robot.logger.error).toHaveBeenCalledWith(util.inspect(response))
+        manager.listHooks(user, repo)
+
+        expect(manager.handleError).toHaveBeenCalled()
