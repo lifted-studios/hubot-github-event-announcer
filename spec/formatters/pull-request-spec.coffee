@@ -19,10 +19,10 @@ describe 'Pull Request Formatter', ->
       type: 'pull_request'
       data:
         action: 'opened'
-        html_url: url
         number: number
         pull_request:
           title: title
+          html_url: url
         repository:
           full_name: repo
         sender:
