@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.11.0** &mdash; *Released: 12 April 2016*
+
+* [#17](https://github.com/lifted-studios/hubot-github-event-announcer/pull/17) by [@InAnimaTe](https://github.com/InAnimaTe) - Fix Pull Request HTML Link - Fixes [#12](https://github.com/lifted-studios/hubot-github-event-announcer/issues/12)
+
 ## **v0.10.0** &mdash; *Released: 19 May 2015*
 
 * Add command for listing hooks on a GitHub repository
