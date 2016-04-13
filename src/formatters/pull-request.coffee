@@ -18,7 +18,7 @@ openEvent = ({data}) ->
   #{sender.login} #{verb} Pull Request ##{data.number} on #{repo.full_name}
   Title: #{pullRequest.title}
 
-  #{data.html_url}
+  #{pullRequest.html_url}
   """
 
 assignEvent = ({data}) ->
@@ -33,7 +33,7 @@ assignEvent = ({data}) ->
   #{sender.login} #{verb} #{assignee} to Pull Request ##{data.number} on #{repo.full_name}
   Title: #{pullRequest.title}
 
-  #{data.html_url}
+  #{pullRequest.html_url}
   """
 
 labelEvent = ({data}) ->
@@ -50,5 +50,5 @@ labelEvent = ({data}) ->
   #{sender.login} #{verb} the label #{label} to Pull Request ##{data.number} on #{repo.full_name}
   Title: #{pullRequest.title}
 
-  #{data.html_url}
+  #{pullRequest.html_url}
   """
